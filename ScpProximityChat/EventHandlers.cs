@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using AdminToys;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
+using Exiled.API.Features.Toys;
 using Exiled.Events.EventArgs.Player;
 using Mirror;
 using PlayerRoles.FirstPersonControl;
@@ -179,7 +181,9 @@ namespace ScpProximityChat
             {
                 SpeakerToy speaker = Object.Instantiate(PrefabHelper.GetPrefab<SpeakerToy>(PrefabType.SpeakerToy), player.Transform, true);
                 NetworkServer.Spawn(speaker.gameObject);
-                speaker.NetworkControllerId = (byte)player.Id;
+                byte id = 1;
+                while (AdminToy.List.Any(toy => toy is Exiled.API.Features.Toys.Speaker s && s.Base.NetworkControllerId == id) || AudioPlayer.AudioPlayerById.ContainsKey(id)) id++;
+                speaker.NetworkControllerId = id;
                 speaker.NetworkMinDistance = _config.MinDistance;
                 speaker.NetworkMaxDistance = _config.MaxDistance;
                 speaker.transform.position = player.Position;
