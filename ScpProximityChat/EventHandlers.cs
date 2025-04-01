@@ -187,7 +187,8 @@ namespace ScpProximityChat
                 speaker.NetworkMinDistance = _config.MinDistance;
                 speaker.NetworkMaxDistance = _config.MaxDistance;
                 speaker.transform.position = player.Position;
-
+                AdminToy.Get(speaker);
+                
                 _toggledPlayers.Add(player, speaker);
 
                 Message message = _config.ProximityChatEnabled;
